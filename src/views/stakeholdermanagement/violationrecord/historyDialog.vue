@@ -1,0 +1,245 @@
+<template>
+  <div>
+    <basic-dialog
+      icon="icon-xinzengfabu"
+      :title="title"
+      width="1000px"
+      height="60%"
+      v-bind="$attrs"
+      @close="close"
+      :openFlag="openEdit"
+    >
+      <template #content>
+        <list-container>
+          <template #left> </template>
+          <template #right>
+            <!-- <div class="role_operation_box">
+              <el-button @click="add">
+                <i class="iconfont icon-jia" style="font-size: 12px"></i>
+                新增
+              </el-button>
+            </div> -->
+            <dom-size-listen style="flex: 1" v-model="sizeCon">
+              <render-table
+                :height="sizeCon.height"
+                :data="tableData"
+                :columns="columns"
+                @checkbox-change="currentChange"
+                @checkbox-all="currentChange"
+              />
+            </dom-size-listen>
+          </template>
+        </list-container>
+      </template>
+    </basic-dialog>
+
+    <information-dialog
+      ref="informationDialogRef"
+      :dictConfig="{}"
+      @refresh="getTableData({})"
+    ></information-dialog>
+    <record-dialog
+      ref="recordDialogRef"
+      :dictConfig="{}"
+      @refresh="getTableData({})"
+    ></record-dialog>
+  </div>
+</template>
+<script>
+import tableMixins from "@/mixins/table";
+import commonMixin from "@/mixins/common";
+import dictMixin from "@/mixins/dict";
+import informationDialog from "./informationDialog.vue";
+import recordDialog from "./recordDialog.vue";
+import {
+  informationUrlViewListAPI,
+  // informationUrlViewAPI,
+  informationUrlDeleteAPI
+} from "@/api/stakeholdermanagement/index";
+export default {
+  mixins: [tableMixins, commonMixin, dictMixin],
+  components: { informationDialog, recordDialog },
+  name: "historyDialog",
+  data() {
+    return {
+      openEdit: false,
+      isDisabled: "",
+      choseRow:'',
+      ruleForm: {},
+      rules: {},
+      ids:'',
+      tableData: [{ safetyTarget: "1" }],
+      columns: [
+        {
+          type: "checkbox",
+          align: "center",
+          fixed: "left",
+          width: 50,
+        },
+        {
+          type: "seq",
+          title: "序号",
+          fixed: "left",
+          width: 50,
+          align: "center",
+        },
+        {
+          field: "contractor",
+          title: "违章相关方",
+          align: "center",
+        },
+        {
+          field: "assessmentContent",
+          title: "违章内容",
+          align: "center",
+        },
+        {
+          field: "relevantResponsiblePerson",
+          title: "相关责任人",
+          align: "center",
+        },
+        {
+          field: "amountOfFine",
+          title: "罚款金额（元）",
+          align: "center",
+        },
+        {
+          field: "pointsDeducted",
+          title: "扣分分值",
+          align: "center",
+        },
+        {
+          title: "操作",
+          align: "center",
+          render: (h, { row, column, $index }) => {
+            return (
+              <operate-button
+                on-operateButtonClick={(type) => {
+                  this.operateButtonClick(type, row);
+                }}
+              ></operate-button>
+            );
+          },
+        },
+      ],
+    };
+  },
+
+  props: {
+    dictConfig: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    title: {
+      type: String,
+      default: "相关方违章历史",
+    },
+    icon: {
+      type: String,
+      default: "icon-xinzengfabu",
+    },
+  },
+  created() {},
+  methods: {
+    //选中行
+    currentChange(row) {
+      this.choseRow = this.tableData[row.$rowIndex];
+      console.log('拿到选中的信息',this.choseRow);
+      console.log('拿到选中的信息',this.choseRow.id);
+    },
+    async getList(contractor) {
+      let params = {
+        contractor: contractor,
+      };
+      const res = await informationUrlViewListAPI(params);
+      console.log("查看历史记录", res.data);
+      if (res.code === 200) {
+        this.tableData = res.data;
+        this.page.totalResult = res.data.totalElements;
+      }
+    },
+    add() {
+      this.$refs.recordDialogRef.open();
+    },
+    submitForm() {
+      this.close();
+    },
+    operateButtonClick(type, row) {
+      switch (type) {
+        case "chakan":
+          this.$refs.informationDialogRef.open(row);
+          break;
+        case "bianji":
+          this.$refs.recordDialogRef.open();
+          break;
+        case "shanchu":
+          this.deleteData(row);
+          break;
+      }
+    },
+    async deleteData(row) {
+      console.log(row);
+      // this.$confirm("确定删除该条数据吗?", "提示", {
+      //   confirmButtonText: "确定",
+      //   cancelButtonText: "取消",
+      //   type: "warning",
+      // })
+      //   .then(async () => {
+      //     const res = await informationUrlDeleteAPI({
+      //       ids: row.id,
+      //     });
+      //     if (res.code === 200) {
+      //       this.$message.success("删除成功");
+      //       this.getTableData({});
+      //     }
+      //   })
+      //   .catch(() => {
+      //     this.$message.info("已取消删除");
+      //   });
+    },
+    // 打开
+    open(row, type) {
+      console.log(row);
+      this.openEdit = true;
+      this.getList(row.contractor);
+    },
+    // 关闭
+    close() {
+      this.openEdit = false;
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+.form {
+  padding: 20px;
+}
+/deep/.projectFund .el-form-item__label {
+  line-height: 20px;
+}
+/deep/ .el-form-item__error {
+  padding-top: 0;
+}
+.role_operation_box {
+  padding: 5px;
+  display: flex;
+  justify-content: end;
+}
+
+.role_operation_box .el-button {
+  background-color: #409eff;
+  color: white;
+  width: 72.56px;
+  height: 33px;
+  padding: 9px 15px;
+}
+.role_operation_box .el-button:hover {
+  background-color: #6eb5ff;
+}
+/deep/ .role_operation_box span {
+  font-size: 12px;
+}
+</style>

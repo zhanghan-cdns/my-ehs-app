@@ -1,0 +1,65 @@
+.el-form-item__error {
+  line-height: 10px;
+}
+// 普通编辑弹窗样式
+.common_form_container {
+  width: 100%;
+  padding: 0 83px;
+  box-sizing: border-box;
+  padding-top: 25px;
+}
+// 锚点定位弹窗 label-width 统一 120px
+
+// 所有弹窗表单 输入框 选择框 40px
+.el-input--medium .el-input__inner {
+  height: 40px;
+  line-height: 40px;
+}
+.vxe-modal--footer {
+  border: 1px solid #e3e3e3;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.flex1 {
+  flex: 1;
+}
+// 重置按钮
+.reset_btn {
+  background: #d6e4ff !important;
+  color: #4a80fc !important;
+  border: 1px solid #4a80fc !important;
+}
+// 导出
+.export_btn {
+  background: #d6e4ff !important;
+  color: #409eff !important;
+  border: 1px solid #409eff !important;
+}
+// 新增
+.add_btn{
+  background: #409EFF;
+  color:#fff;
+  border: 1px solid #409EFF !important;
+}
+.require::before {
+  content: '*';
+  color: #F56C6C;
+  margin-right: 4px;
+}
+//查看弹窗里 数据样式
+.fake_input_disabled{
+  cursor:not-allowed;
+  height: 38px;
+  line-height: 38px;
+  padding-left: 15px;
+  background-color: #f5f7fa;
+  border: 1px solid #e4e7ed;
+  border-radius: 4px;
+  color: #333;
+}
+//收搜样式
+.drawer-transition {
+  transition: 0.3s width ease-in-out, 0.3s padding-left ease-in-out, 0.3s padding-right ease-in-out;
+}

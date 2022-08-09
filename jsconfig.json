@@ -1,0 +1,12 @@
+
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@views/*":["./src/views/*"]
+    },
+    "target": "es2020"
+  },
+  "exclude": ["node_modules"]
+}

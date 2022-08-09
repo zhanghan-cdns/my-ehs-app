@@ -1,0 +1,57 @@
+/deep/ .el-col {
+    margin-bottom: 0px;
+}
+
+/deep/ .el-form {
+    border-right: 1px solid #d0e0ff;
+    border-bottom: 1px solid #d0e0ff;
+}
+
+/deep/ .el-form-item {
+    height: 100%;
+    display: flex;
+    margin-bottom: 0px;
+}
+
+/deep/ .el-form-item__label {
+    flex: none;
+    line-height: 48px;
+    background: #f0f5ff;
+    border: 1px solid #d0e0ff;
+    padding: 0 15px 0 0;
+    margin-bottom: -1px;
+    margin-right: -1px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/deep/ .el-form-item__content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-left: 0px !important;
+    border: 1px solid #d0e0ff;
+    padding: 8px 10px;
+    margin-bottom: -1px;
+    margin-right: -1px;
+}
+
+/deep/ .el-input__inner {
+    border: 1px solid #d0e0ff;
+    border-radius: 2px;
+}
+
+/deep/ .el-form-item__error {
+    display: none;
+}
+
+/deep/ .el-checkbox-group {
+    width: 100%;
+    border: 1px solid #d0e0ff;
+    padding: 5px 16px 0px 16px;
+}
+
+.extra-item {
+    margin-bottom: -1px;
+}

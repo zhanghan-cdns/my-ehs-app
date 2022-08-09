@@ -1,0 +1,17 @@
+.live-popper-class {
+    min-width: 76px;
+    padding: 6px;
+
+    .live-btn-box {
+        margin: 4px 0px;
+    }
+
+    .live-btn {
+        width: 76px;
+    }
+
+    .el-button--small:hover {
+        background: #4a80fc;
+        color: #fff;
+    }
+}
